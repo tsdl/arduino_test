@@ -1,0 +1,229 @@
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+int boton1 = 6;
+int boton2 = 7;
+int boton3 = 8;
+
+int caso=0; // auxiliar para abrir pantalla de papas o refrescos.
+int papas=0; // auxiliar para abrir pantalla de Sabritas o Barcel a pagar
+int refrescos=0; // auxiliar para abrir pantalla de Coca o Pepsi a pagar
+int sabr=7;
+int barc=6;
+int coc=10;
+int pep=9;
+
+
+void setup() {
+  lcd.begin(16,2);
+  pinMode(boton1, INPUT);
+  pinMode(boton2, INPUT);
+  pinMode(boton3, INPUT);
+}
+
+
+void loop() {
+  // abre pantalla de bienvenida
+  int estadoBoton1 = digitalRead(boton1);
+  int estadoBoton2 = digitalRead(boton2);
+  int estadoBoton3 = digitalRead(boton3);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print(estadoBoton1);
+  lcd.print(estadoBoton2);
+  lcd.print(estadoBoton3);
+  lcd.print(" Productos");
+  lcd.setCursor(0,1);
+  lcd.print("1.Papas 2.Refr");
+  delay(100); 
+
+// abre pantalla de papas
+if(estadoBoton1==1){
+  caso=1;
+  do {
+    int estadoBoton1 = digitalRead(boton1);
+    int estadoBoton2 = digitalRead(boton2);
+    int estadoBoton3 = digitalRead(boton3);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(estadoBoton1);
+    lcd.print(estadoBoton2);
+    lcd.print(estadoBoton3);
+    lcd.print(" Papas");
+    lcd.setCursor(0,1);
+    lcd.print("1.Sabr 2.Barc");
+    delay(100); 
+    eleccion1(); // llama funcion para elegir papas
+  } while (caso=1);
+// abre pantalla de refrescos
+} else if(estadoBoton2==1){
+  caso=2;
+  do {
+    int estadoBoton1 = digitalRead(boton1);
+    int estadoBoton2 = digitalRead(boton2);
+    int estadoBoton3 = digitalRead(boton3);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(estadoBoton1);
+    lcd.print(estadoBoton2);
+    lcd.print(estadoBoton3);
+    lcd.print(" Refresco");
+    lcd.setCursor(0,1);
+    lcd.print("1.Coca 2.Pepsi");
+    delay(100);
+    eleccion2(); //llama funcion para elegir refresco
+  } while (caso=2);
+} // cierra els if
+
+} // cierra loop
+
+// para mostrar pantalla de pago de papas
+void eleccion1(){
+  int estadoBoton1 = digitalRead(boton1);
+  int estadoBoton2 = digitalRead(boton2);
+  int estadoBoton3 = digitalRead(boton3);
+// para pagar sabritas
+  if(estadoBoton1==1){
+  papas=1;
+  do {
+    int estadoBoton1 = digitalRead(boton1);
+    int estadoBoton2 = digitalRead(boton2);
+    int estadoBoton3 = digitalRead(boton3);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(estadoBoton1);
+    lcd.print(estadoBoton2);
+    lcd.print(estadoBoton3);
+    lcd.print(" Sabr $7.00");
+    lcd.setCursor(0,1);
+    lcd.print("Resta $");
+    lcd.setCursor(7,1);
+    lcd.print(sabr);
+      if (sabr==0){
+        gracias();
+      }
+    lcd.setCursor(8,1);
+      if (sabr!=0){
+        lcd.print(".00");
+      }
+    delay(100); 
+    pago();
+  } while (papas=1);
+//papa pagar barcel
+} else if(estadoBoton2==1){
+  papas=2;
+  do {
+    int estadoBoton1 = digitalRead(boton1);
+    int estadoBoton2 = digitalRead(boton2);
+    int estadoBoton3 = digitalRead(boton3);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(estadoBoton1);
+    lcd.print(estadoBoton2);
+    lcd.print(estadoBoton3);
+    lcd.print(" Barc $6.00");
+    lcd.setCursor(0,1);
+    lcd.print("Resta $");
+    lcd.setCursor(7,1);
+    lcd.print(barc);
+      if (barc==0){
+        gracias();
+      }
+    lcd.setCursor(8,1);
+      if (barc!=0){
+        lcd.print(".00");
+      }
+    delay(100); 
+    pago();
+  } while (papas=2);
+} 
+}
+
+// para mostrar pantalla de pago de refrescos:
+void eleccion2(){
+  int estadoBoton1 = digitalRead(boton1);
+  int estadoBoton2 = digitalRead(boton2);
+  int estadoBoton3 = digitalRead(boton3);
+// para pagar coca
+  if(estadoBoton1==1){
+  refrescos=1;
+  do {
+    int estadoBoton1 = digitalRead(boton1);
+    int estadoBoton2 = digitalRead(boton2);
+    int estadoBoton3 = digitalRead(boton3);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(estadoBoton1);
+    lcd.print(estadoBoton2);
+    lcd.print(estadoBoton3);
+    lcd.print(" Coca $10.00");
+    lcd.setCursor(0,1);
+    if (coc==10){
+      lcd.print("Resta $");
+    } else if (coc<=9 && coc>0){
+      lcd.print("Resta  $");
+    } else 
+    lcd.setCursor(7,1);
+    lcd.print(coc);
+      if (coc==0){
+        gracias();
+      }
+    lcd.setCursor(9,1);
+      if (coc!=0){
+        lcd.print(".00");
+      }
+    delay(100);
+    pago(); 
+  } while (refrescos=1);
+// para pagar pepsi
+} else if(estadoBoton2==1){
+  refrescos=2;
+  do {
+    int estadoBoton1 = digitalRead(boton1);
+    int estadoBoton2 = digitalRead(boton2);
+    int estadoBoton3 = digitalRead(boton3);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(estadoBoton1);
+    lcd.print(estadoBoton2);
+    lcd.print(estadoBoton3);
+    lcd.print(" Pepsi $9.00");
+    lcd.setCursor(0,1);
+    lcd.print("Resta $");
+    lcd.setCursor(7,1);
+    lcd.print(pep);
+      if (pep==0){
+        gracias();
+      }
+    lcd.setCursor(8,1);
+      if (pep!=0){
+        lcd.print(".00");
+      }
+    delay(100); 
+    pago();
+  } while (refrescos=2);
+} // cierra els if
+}
+
+// para activar boton 3 y pago
+void pago(){
+  int estadoBoton3 = digitalRead(boton3);
+  if (estadoBoton3==1){
+    sabr--;
+    barc--;
+    coc--;
+    pep--;
+    delay (100);
+  }
+}
+
+// para mostrar pantalla final
+void gracias(){
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Gracias");
+      lcd.setCursor(0,1);
+      lcd.print("por comprar");
+      delay(100);
+}
