@@ -1,0 +1,55 @@
+  int led3 = 3;
+  int led5 = 5;
+  int led9 = 9;
+  int led11 = 11;
+  int b;
+//
+void setup() {
+  pinMode(led3,OUTPUT);
+  pinMode(led5,OUTPUT);
+  pinMode(led9,OUTPUT);
+  pinMode(led11,OUTPUT);
+  Serial.begin(9600);
+}
+//
+void loop() {
+  int sensorValue0 = analogRead(A0);
+  int sensorValue1 = analogRead(A1);
+  Serial.print("x: ");
+  Serial.print(sensorValue0);
+  Serial.print (" y: ");
+  Serial.println(sensorValue1);
+  delay(1);     
+// x: 497
+// y : 494
+if (sensorValue0 >=486) {
+  analogWrite(led11,b=0);
+} else {
+  b = -0.52*(sensorValue0-485);
+  analogWrite(led11,b);
+  }
+
+if (sensorValue0 <=504) {
+  analogWrite(led3,b=0);
+} else {
+  b = 0.49*(sensorValue0-505);
+    analogWrite(led3,b);
+  }
+
+if (sensorValue1 >=486) {
+  analogWrite(led5,b=0);
+  }  
+else {
+  b = -0.52*(sensorValue1-485);
+  analogWrite(led5,b);
+}
+
+if (sensorValue1 <=504) {
+  analogWrite(led9,b=0);
+} else {
+  b = 0.49*(sensorValue1-505);
+    analogWrite(led9,b);
+  }
+}
+
+
